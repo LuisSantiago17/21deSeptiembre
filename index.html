@@ -81,52 +81,52 @@
     <footer>Haz clic en "Dar flores" y deja que la magia hable por mí. ✨</footer>
   </div>
 
-  <script>
-    const bouquet = document.getElementById('bouquet');
-    const giveBtn = document.getElementById('giveBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const confetti = document.getElementById('confetti');
-    const caption = document.getElementById('caption');
+<script>
+  const bouquet = document.getElementById('bouquet');
+  const giveBtn = document.getElementById('giveBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const confetti = document.getElementById('confetti');
+  const caption = document.getElementById('caption');
 
-    function makeConfetti(){
-      confetti.innerHTML = '';
-      const colors = ['#ffd54a','#ffeb3b','#fff176','#fdd835'];
-      for(let i=0;i<28;i++){
-        const s = document.createElement('span');
-        s.style.left = (50 + (Math.random()-0.5)*40) + '%';
-        s.style.top = (10 + Math.random()*30) + '%';
-        s.style.background = colors[Math.floor(Math.random()*colors.length)];
-        s.style.transform = rotate(${Math.random()*360}deg);
-        s.style.opacity = 1;
-        s.style.width = (6 + Math.random()*12) + 'px';
-        s.style.height = (8 + Math.random()*16) + 'px';
-        s.style.animation = fall ${1+Math.random()*1.4}s ease-out forwards ${Math.random()*0.2}s;
-        confetti.appendChild(s);
-      }
+  function makeConfetti() {
+    confetti.innerHTML = '';
+    const colors = ['#ffd54a','#ffeb3b','#fff176','#fdd835'];
+    for (let i = 0; i < 28; i++) {
+      const s = document.createElement('span');
+      s.style.left = (50 + (Math.random() - 0.5) * 40) + '%';
+      s.style.top = (10 + Math.random() * 30) + '%';
+      s.style.background = colors[Math.floor(Math.random() * colors.length)];
+      s.style.transform = rotate(${Math.random() * 360}deg);
+      s.style.opacity = 1;
+      s.style.width = (6 + Math.random() * 12) + 'px';
+      s.style.height = (8 + Math.random() * 16) + 'px';
+      s.style.animation = fall ${1 + Math.random() * 1.4}s ease-out forwards ${Math.random() * 0.2}s;
+      confetti.appendChild(s);
     }
+  }
 
-    // add fall keyframes dynamically
-    const style = document.createElement('style');
-    style.innerHTML = @keyframes fall{to{transform:translateY(120vh) rotate(720deg);opacity:0}};
-    document.head.appendChild(style);
+  // keyframes confetti
+  const style = document.createElement('style');
+  style.innerHTML = @keyframes fall{to{transform:translateY(120vh) rotate(720deg);opacity:0}};
+  document.head.appendChild(style);
 
-    giveBtn.addEventListener('click', ()=>{
-      bouquet.classList.remove('give');
-      void bouquet.offsetWidth;
-      bouquet.classList.add('give');
+  // CLICK DAR FLORES
+  giveBtn.onclick = () => {
+    bouquet.classList.remove('give');
+    bouquet.offsetWidth; // reinicia la animación
+    bouquet.classList.add('give');
 
-      caption.textContent = 'Con estas flores amarillas quiero recordarte cuánto te quiero y lo mucho que significas para mí. 💛🌼';
-      makeConfetti();
+    caption.textContent = 'Con estas flores amarillas quiero recordarte cuánto te quiero y lo mucho que significas para mí. 💛🌼';
+    makeConfetti();
+  };
 
-      bouquet.setAttribute('aria-hidden','false');
-      setTimeout(()=> bouquet.setAttribute('aria-hidden','true'), 1400);
-    });
-
-    resetBtn.addEventListener('click', ()=>{
-      bouquet.classList.remove('give');
-      confetti.innerHTML = '';
-      caption.textContent = 'Te entrego estas flores amarillas como símbolo de todo lo que siento por ti. 💛🌼';
-    });
-  </script>
+  // CLICK REINICIAR
+  resetBtn.onclick = () => {
+    bouquet.classList.remove('give');
+    confetti.innerHTML = '';
+    caption.textContent = 'Te entrego estas flores amarillas como símbolo de todo lo que siento por ti. 💛🌼';
+  };
+</script>
 </body>
+
 </html>
