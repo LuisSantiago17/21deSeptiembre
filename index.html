@@ -2,168 +2,91 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flor Amarilla 💛🌼</title>
+  <title>Flores Amarillas para Mi Mejor Amiga</title>
   <style>
     body {
-      background: linear-gradient(135deg, #fff8e1, #ffe082);
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      background-color: #fff8dc;
+      font-family: 'Segoe UI', sans-serif;
       text-align: center;
-      overflow-x: hidden;
+      padding: 30px;
     }
-
     h1 {
-      color: #fbc02d;
-      font-size: 3rem;
-      margin-bottom: 20px;
+      color: #daa520;
     }
-
-    .flower {
-      position: relative;
-      width: 220px;
-      height: 220px;
+    #ramo {
+      width: 200px;
       margin: 20px auto;
+      opacity: 0.6;
     }
-
-    .petal {
-      width: 70px;
-      height: 100px;
-      background: yellow;
-      border-radius: 50% 50% 50% 50%;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      margin: -50px 0 0 -35px; /* centra cada pétalo */
-      transform-origin: 50% 100%; /* rota desde la base */
-      box-shadow: 0 0 10px rgba(255,223,0,0.7);
-      transition: transform 0.8s ease, opacity 0.8s ease;
-    }
-
-    .petal.fallen {
-      opacity: 0;
-      transform: translateY(150px) rotate(90deg) !important;
-    }
-
-    .center {
-      width: 90px;
-      height: 90px;
-      background: orange;
-      border-radius: 50%;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    }
-
-    .btn {
-      margin: 10px;
-      padding: 12px 25px;
-      background: #fdd835;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      font-size: 1.2rem;
-      transition: 0.3s;
-    }
-
-    .btn:hover {
-      background: #fbc02d;
-      transform: scale(1.05);
-    }
-
-    .caption {
+    #mensajes {
       margin-top: 20px;
-      font-size: 1.3rem;
-      color: #795548;
-      font-weight: bold;
-      min-height: 3em;
-      max-width: 90%;
+      font-size: 1.2em;
+      color: #444;
     }
-
-    /* Responsive para celulares */
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 8vw;
-      }
-      .flower {
-        width: 150px;
-        height: 150px;
-      }
-      .petal {
-        width: 50px;
-        height: 70px;
-        margin: -35px 0 0 -25px;
-      }
-      .center {
-        width: 60px;
-        height: 60px;
-      }
-      .btn {
-        font-size: 5vw;
-        padding: 10px 20px;
-      }
-      .caption {
-        font-size: 5vw;
-      }
+    button {
+      background-color: #fdd835;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1em;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #fbc02d;
+    }
+    #final {
+      margin-top: 30px;
+      font-size: 1.5em;
+      color: #d4af37;
+      opacity: 0;
+      animation: aparecer 3s ease-in-out forwards;
+    }
+    @keyframes aparecer {
+      0% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
     }
   </style>
 </head>
 <body>
-  <h1>Flor Amarilla 💛🌼</h1>
-  <div class="flower" id="flower">
-    <div class="petal" style="transform: rotate(0deg) translateY(-100px);"></div>
-    <div class="petal" style="transform: rotate(60deg) translateY(-100px);"></div>
-    <div class="petal" style="transform: rotate(120deg) translateY(-100px);"></div>
-    <div class="petal" style="transform: rotate(180deg) translateY(-100px);"></div>
-    <div class="petal" style="transform: rotate(240deg) translateY(-100px);"></div>
-    <div class="petal" style="transform: rotate(300deg) translateY(-100px);"></div>
-    <div class="center"></div>
-  </div>
 
-  <button class="btn" id="giveBtn">Dar flores 🌼</button>
-  <button class="btn" id="resetBtn">Reiniciar 🔄</button>
-
-  <p class="caption" id="caption">Haz clic en “Dar flores” y mira cómo caen los pétalos con mensajes. 💛🌼</p>
+  <h1>🌼 Flores Amarillas para Ti 🌼</h1>
+  <img id="ramo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Yellow_roses_bouquet.jpg/800px-Yellow_roses_bouquet.jpg" alt="Ramo de flores amarillas">
+  
+  <button onclick="mostrarMensajes()">Haz clic si quieres saber lo que significas para mí</button>
+  
+  <div id="mensajes"></div>
+  <div id="final"></div>
 
   <script>
-    const petals = document.querySelectorAll('.petal');
-    const giveBtn = document.getElementById('giveBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const caption = document.getElementById('caption');
-
-    const messages = [
-      "Eres una persona muy especial en mi vida. 💛",
-      "Gracias por siempre estar conmigo. 🌼",
-      "Tu amistad ilumina mis días. ✨",
-      "Me haces sonreír incluso en momentos difíciles. 😊",
-      "Quiero que sepas cuánto te aprecio. 💕",
-      "Eres única y valiosa para mí. 🌟"
+    const mensajes = [
+      "Gracias por llenar mi vida de luz 💛",
+      "Tu amistad es el regalo más bonito que tengo 🌻",
+      "Cada día contigo es como recibir flores amarillas 🌼",
+      "Eres especial... y me encantaría que lo supieras 💫",
+      "No solo eres mi mejor amiga, eres mi persona favorita 💛",
+      "Dicen que las flores amarillas se regalan a quien uno quiere tener cerca... siempre 🌼"
     ];
 
-    let fallenCount = 0;
-
-    giveBtn.onclick = () => {
-      if (fallenCount < petals.length) {
-        petals[fallenCount].classList.add('fallen');
-        caption.textContent = messages[fallenCount];
-        fallenCount++;
-      } else {
-        caption.textContent = "Ya entregaste todos mis sentimientos en estos pétalos. 💛🌼";
-      }
-    };
-
-    resetBtn.onclick = () => {
-      petals.forEach(p => p.classList.remove('fallen'));
-      fallenCount = 0;
-      caption.textContent = "Haz clic en “Dar flores” y mira cómo caen los pétalos con mensajes. 💛🌼";
-    };
+    function mostrarMensajes() {
+      const contenedor = document.getElementById("mensajes");
+      const final = document.getElementById("final");
+      contenedor.innerHTML = "";
+      final.innerHTML = "";
+      mensajes.forEach((msg, i) => {
+        setTimeout(() => {
+          const p = document.createElement("p");
+          p.textContent = msg;
+          contenedor.appendChild(p);
+          if (i === mensajes.length - 1) {
+            setTimeout(() => {
+              final.textContent = "Feliz 21 de septiembre 🌼 Que estas flores te recuerden cuánto significas para mí";
+            }, 1500);
+          }
+        }, i * 1200);
+      });
+    }
   </script>
+
 </body>
 </html>
