@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Flores Amarillas para Ti 🌼</title>
+  <style>
+    :root{--bg:#fff9ec;--accent:#ffd54a;--text:#2b2b2b}
+    *{box-sizing:border-box}
+    body{margin:0;height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#fff9ec 0%, #fffefc 100%);font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
+    .card{width:90%;max-width:760px;background:rgba(255,255,255,0.6);backdrop-filter:blur(4px);border-radius:18px;padding:28px;box-shadow:0 10px 30px rgba(0,0,0,0.08);text-align:center}
+    h1{margin:0 0 8px 0;font-size:1.5rem;color:var(--text)}
+    p{margin:0 0 18px 0;color:#444}
+
+    .stage{position:relative;height:300px;display:flex;align-items:center;justify-content:space-between;padding:20px}
+    .avatar{width:100px;height:100px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:48px}
+    .u-me{background:linear-gradient(135deg,#ffd54a, #ffb74d);box-shadow:0 6px 18px rgba(255,181,71,0.25)}
+    .u-friend{background:linear-gradient(135deg,#ffe082,#fff59d);box-shadow:0 6px 18px rgba(255,235,59,0.12)}
+
+    /* bouquet */
+    .bouquet{position:absolute;left:120px;top:120px;width:84px;height:84px;transform-origin:center;z-index:5}
+    .stem{position:absolute;left:38px;top:34px;width:8px;height:60px;background:#6b8f3b;border-radius:6px;transform-origin:top left}
+    .petal{position:absolute;width:36px;height:36px;border-radius:50%;background:var(--accent);box-shadow:inset -6px -6px 10px rgba(0,0,0,0.06)}
+    .petal.p1{left:6px;top:-6px}
+    .petal.p2{left:24px;top:0px}
+    .petal.p3{left:12px;top:12px}
+    .center{position:absolute;left:16px;top:8px;width:18px;height:18px;border-radius:50%;background:#f57f17;box-shadow:0 2px 6px rgba(0,0,0,0.12)}
+    .wrap{position:absolute;left:24px;top:56px;width:36px;height:28px;background:linear-gradient(135deg,#f5f5f5,#e0e0e0);border-radius:8px;transform:rotate(8deg)}
+
+    /* animation */
+    .give{animation:give 1s ease-in-out forwards}
+    .float{animation:float 0.9s ease-in-out infinite alternate}
+    @keyframes give{
+      0%{transform:translateX(0) rotate(0)}
+      70%{transform:translateX(360px) rotate(10deg)}
+      100%{transform:translateX(380px) rotate(0)}
+    }
+    @keyframes float{0%{transform:translateY(0)}100%{transform:translateY(-6px)} }
+
+    .caption{font-weight:600;margin-top:12px;color:#a0522d}
+    .btns{margin-top:18px;display:flex;gap:10px;justify-content:center}
+    button{padding:10px 14px;border-radius:10px;border:0;background:#ffca28;color:#2b2b2b;font-weight:600;cursor:pointer;box-shadow:0 6px 14px rgba(255,186,60,0.18)}
+    button:active{transform:translateY(2px)}
+
+    /* confetti */
+    .confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+    .confetti span{position:absolute;width:10px;height:14px;display:block;opacity:0;transform-origin:center}
+
+    footer{font-size:12px;color:#666;margin-top:12px}
+    @media (max-width:520px){.stage{height:260px}.avatar{width:84px;height:84px;font-size:40px}}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Flores Amarillas para Ti 💛</h1>
+    <p>Un pequeño detalle para decirte lo especial que eres para mí. Cada pétalo lleva un pedacito de mi cariño. 🌼✨</p>
+
+    <div class="stage" aria-live="polite">
+      <div class="avatar u-me" aria-hidden="true">🥰</div>
+      <div class="avatar u-friend" aria-hidden="true">💖</div>
+
+      <div id="bouquet" class="bouquet float" role="img" aria-label="Ramo de flores amarillas">
+        <div class="stem"></div>
+        <div class="petal p1"></div>
+        <div class="petal p2"></div>
+        <div class="petal p3"></div>
+        <div class="center"></div>
+        <div class="wrap"></div>
+      </div>
+
+      <div class="confetti" id="confetti" aria-hidden="true"></div>
+    </div>
+
+    <div class="caption" id="caption">Te entrego estas flores amarillas como símbolo de todo lo que siento por ti. 💛🌼</div>
+
+    <div class="btns">
+      <button id="giveBtn">Dar flores</button>
+      <button id="resetBtn">Reiniciar</button>
+    </div>
+
+    <footer>Haz clic en "Dar flores" y deja que la magia hable por mí. ✨</footer>
+  </div>
+
+  <script>
+    const bouquet = document.getElementById('bouquet');
+    const giveBtn = document.getElementById('giveBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const confetti = document.getElementById('confetti');
+    const caption = document.getElementById('caption');
+
+    function makeConfetti(){
+      confetti.innerHTML = '';
+      const colors = ['#ffd54a','#ffeb3b','#fff176','#fdd835'];
+      for(let i=0;i<28;i++){
+        const s = document.createElement('span');
+        s.style.left = (50 + (Math.random()-0.5)*40) + '%';
+        s.style.top = (10 + Math.random()*30) + '%';
+        s.style.background = colors[Math.floor(Math.random()*colors.length)];
+        s.style.transform = rotate(${Math.random()*360}deg);
+        s.style.opacity = 1;
+        s.style.width = (6 + Math.random()*12) + 'px';
+        s.style.height = (8 + Math.random()*16) + 'px';
+        s.style.animation = fall ${1+Math.random()*1.4}s ease-out forwards ${Math.random()*0.2}s;
+        confetti.appendChild(s);
+      }
+    }
+
+    // add fall keyframes dynamically
+    const style = document.createElement('style');
+    style.innerHTML = @keyframes fall{to{transform:translateY(120vh) rotate(720deg);opacity:0}};
+    document.head.appendChild(style);
+
+    giveBtn.addEventListener('click', ()=>{
+      bouquet.classList.remove('give');
+      void bouquet.offsetWidth;
+      bouquet.classList.add('give');
+
+      caption.textContent = 'Con estas flores amarillas quiero recordarte cuánto te quiero y lo mucho que significas para mí. 💛🌼';
+      makeConfetti();
+
+      bouquet.setAttribute('aria-hidden','false');
+      setTimeout(()=> bouquet.setAttribute('aria-hidden','true'), 1400);
+    });
+
+    resetBtn.addEventListener('click', ()=>{
+      bouquet.classList.remove('give');
+      confetti.innerHTML = '';
+      caption.textContent = 'Te entrego estas flores amarillas como símbolo de todo lo que siento por ti. 💛🌼';
+    });
+  </script>
+</body>
+</html>
