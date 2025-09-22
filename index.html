@@ -3,59 +3,73 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flores Amarillas 💛🌼</title>
+  <title>Flor Amarilla 💛🌼</title>
   <style>
     body {
       background: linear-gradient(135deg, #fff8e1, #ffe082);
       font-family: 'Comic Sans MS', cursive, sans-serif;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      padding: 20px;
       overflow-x: hidden;
     }
 
     h1 {
       color: #fbc02d;
-      font-size: 6vw;
-    }
-
-    .bouquet {
-      margin: 30px auto;
-      position: relative;
-      width: 150px;
-      height: 200px;
+      font-size: 3rem;
+      margin-bottom: 20px;
     }
 
     .flower {
-      width: 40px;
-      height: 40px;
-      background: yellow;
-      border-radius: 50%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      transform-origin: center;
-      box-shadow: 0 0 10px rgba(255,223,0,0.7);
+      position: relative;
+      width: 220px;
+      height: 220px;
+      margin: 20px auto;
     }
 
-    .stem {
-      width: 6px;
+    .petal {
+      width: 70px;
       height: 100px;
-      background: green;
+      background: yellow;
+      border-radius: 50% 50% 50% 50%;
       position: absolute;
-      bottom: 0;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
+      margin: -50px 0 0 -35px; /* centra cada pétalo */
+      transform-origin: 50% 100%; /* rota desde la base */
+      box-shadow: 0 0 10px rgba(255,223,0,0.7);
+      transition: transform 0.8s ease, opacity 0.8s ease;
+    }
+
+    .petal.fallen {
+      opacity: 0;
+      transform: translateY(150px) rotate(90deg) !important;
+    }
+
+    .center {
+      width: 90px;
+      height: 90px;
+      background: orange;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
     }
 
     .btn {
       margin: 10px;
-      padding: 12px 22px;
+      padding: 12px 25px;
       background: #fdd835;
       border: none;
       border-radius: 25px;
       cursor: pointer;
-      font-size: 4vw;
-      max-width: 90%;
+      font-size: 1.2rem;
       transition: 0.3s;
     }
 
@@ -66,40 +80,34 @@
 
     .caption {
       margin-top: 20px;
-      font-size: 4.5vw;
+      font-size: 1.3rem;
       color: #795548;
       font-weight: bold;
+      min-height: 3em;
+      max-width: 90%;
     }
 
-    #confetti {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    /* Responsive para pantallas chicas */
+    /* Responsive para celulares */
     @media (max-width: 600px) {
       h1 {
         font-size: 8vw;
       }
-      .bouquet {
-        width: 120px;
-        height: 160px;
-      }
       .flower {
-        width: 30px;
-        height: 30px;
+        width: 150px;
+        height: 150px;
       }
-      .stem {
-        height: 80px;
+      .petal {
+        width: 50px;
+        height: 70px;
+        margin: -35px 0 0 -25px;
+      }
+      .center {
+        width: 60px;
+        height: 60px;
       }
       .btn {
         font-size: 5vw;
-        padding: 10px 18px;
+        padding: 10px 20px;
       }
       .caption {
         font-size: 5vw;
@@ -108,63 +116,53 @@
   </style>
 </head>
 <body>
-  <h1>Flores Amarillas 💛🌼</h1>
-  <div class="bouquet" id="bouquet">
-    <div class="stem"></div>
-    <div class="flower" style="top:0;left:0;"></div>
-    <div class="flower" style="top:0;right:0;"></div>
-    <div class="flower" style="bottom:0;left:0;"></div>
-    <div class="flower" style="bottom:0;right:0;"></div>
-    <div class="flower" style="top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+  <h1>Flor Amarilla 💛🌼</h1>
+  <div class="flower" id="flower">
+    <div class="petal" style="transform: rotate(0deg) translateY(-100px);"></div>
+    <div class="petal" style="transform: rotate(60deg) translateY(-100px);"></div>
+    <div class="petal" style="transform: rotate(120deg) translateY(-100px);"></div>
+    <div class="petal" style="transform: rotate(180deg) translateY(-100px);"></div>
+    <div class="petal" style="transform: rotate(240deg) translateY(-100px);"></div>
+    <div class="petal" style="transform: rotate(300deg) translateY(-100px);"></div>
+    <div class="center"></div>
   </div>
 
   <button class="btn" id="giveBtn">Dar flores 🌼</button>
   <button class="btn" id="resetBtn">Reiniciar 🔄</button>
 
-  <p class="caption" id="caption">Te entrego estas flores amarillas como símbolo de todo lo que siento por ti. 💛🌼</p>
-  <div id="confetti"></div>
+  <p class="caption" id="caption">Haz clic en “Dar flores” y mira cómo caen los pétalos con mensajes. 💛🌼</p>
 
   <script>
-    const bouquet = document.getElementById('bouquet');
+    const petals = document.querySelectorAll('.petal');
     const giveBtn = document.getElementById('giveBtn');
     const resetBtn = document.getElementById('resetBtn');
-    const confetti = document.getElementById('confetti');
     const caption = document.getElementById('caption');
 
-    function makeConfetti() {
-      confetti.innerHTML = '';
-      const colors = ['#ffd54a','#ffeb3b','#fff176','#fdd835'];
-      for (let i = 0; i < 28; i++) {
-        const s = document.createElement('span');
-        s.style.position = 'absolute';
-        s.style.left = (50 + (Math.random() - 0.5) * 40) + '%';
-        s.style.top = (10 + Math.random() * 30) + '%';
-        s.style.background = colors[Math.floor(Math.random() * colors.length)];
-        s.style.transform = `rotate(${Math.random() * 360}deg)`;
-        s.style.opacity = 1;
-        s.style.width = (6 + Math.random() * 12) + 'px';
-        s.style.height = (8 + Math.random() * 16) + 'px';
-        s.style.animation = `fall ${1 + Math.random() * 1.4}s ease-out forwards ${Math.random() * 0.2}s`;
-        confetti.appendChild(s);
-      }
-    }
+    const messages = [
+      "Eres una persona muy especial en mi vida. 💛",
+      "Gracias por siempre estar conmigo. 🌼",
+      "Tu amistad ilumina mis días. ✨",
+      "Me haces sonreír incluso en momentos difíciles. 😊",
+      "Quiero que sepas cuánto te aprecio. 💕",
+      "Eres única y valiosa para mí. 🌟"
+    ];
 
-    const style = document.createElement('style');
-    style.innerHTML = `@keyframes fall{to{transform:translateY(120vh) rotate(720deg);opacity:0}}`;
-    document.head.appendChild(style);
+    let fallenCount = 0;
 
     giveBtn.onclick = () => {
-      bouquet.classList.remove('give');
-      bouquet.offsetWidth;
-      bouquet.classList.add('give');
-      caption.textContent = 'Con estas flores amarillas quiero recordarte cuánto te quiero y lo mucho que significas para mí. 💛🌼';
-      makeConfetti();
+      if (fallenCount < petals.length) {
+        petals[fallenCount].classList.add('fallen');
+        caption.textContent = messages[fallenCount];
+        fallenCount++;
+      } else {
+        caption.textContent = "Ya entregaste todos mis sentimientos en estos pétalos. 💛🌼";
+      }
     };
 
     resetBtn.onclick = () => {
-      bouquet.classList.remove('give');
-      confetti.innerHTML = '';
-      caption.textContent = 'Te entrego estas flores amarillas como símbolo de todo lo que siento por ti. 💛🌼';
+      petals.forEach(p => p.classList.remove('fallen'));
+      fallenCount = 0;
+      caption.textContent = "Haz clic en “Dar flores” y mira cómo caen los pétalos con mensajes. 💛🌼";
     };
   </script>
 </body>
